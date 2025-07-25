@@ -1,0 +1,38 @@
+@model IEnumerable<MoviesMVC.Models.Movie> 
+
+<form asp-action="Index" method="get">
+    <p>
+        Search by title: <input type="text" name="searchString" /> @* Input value is sent as query parameter to Index method in the controller*@
+        <input type="submit" value="Search"/> @* Creates search button*@
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Release Date</th>
+            <th>Genre</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model) // all movies or filtered by search query
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.ReleaseDate.ToShortDateString()</td>
+                <td>@movie.Genre</td>
+                <td>@movie.Price.ToString("C")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@movie.Id">Details</a>
+                    <a asp-action="Edit" asp-route-id="@movie.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Movies" asp-action="Create" class="btn btn-primary">Add a movie</a>
